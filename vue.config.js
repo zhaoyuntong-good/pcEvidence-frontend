@@ -1,5 +1,6 @@
 const webpack = require('webpack')
 const path = require('path')
+const CompressionPlugin = require('compression-webpack-plugin')
 module.exports = {
   //部署应用包时的基本 URL
   publicPath: process.env.NODE_ENV === 'production' ? '/' : '/',
@@ -21,6 +22,13 @@ module.exports = {
   configureWebpack: config => {
     if (process.env.NODE_ENV === 'production') {
         // 为生产环境修改配置...
+        return {
+          plugins: [new CompressionPlugin({
+              test: /\.js$|\.html$|\.css/,
+              threshold: 20480,
+              deleteOriginalAssets: false
+          })]
+        }
     } else {
         // 为开发环境修改配置...
     }
